@@ -1,4 +1,75 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException, ConflictException } from '@nestjs/common';
+import { MovieRepository } from './repositories/movies.repository';
+import { CreateMovieDto } from './dto/movie.dto';
+import { TagRepository } from 'src/tags/repository/tags.repository';
+import { Tag } from 'src/tags/entities/tag.entity';
+import { Movie } from './entities/movie.entity';
 
 @Injectable()
-export class MoviesService {}
+export class MoviesService {
+  constructor(
+    private readonly tagsRepository: TagRepository,
+    private readonly moviesRepository: MovieRepository,
+  ) {}
+
+  async saveMovie(movie: CreateMovieDto): Promise<Movie> {
+    let tags: Tag[] = [];
+    if (movie.tags && movie.tags.length) {
+      tags = await this.tagsRepository.findOrCreateTag(movie.tags);
+    }
+    const movieToSave = {
+      ...movie,
+      tags,
+    };
+    return this.moviesRepository.saveMovie(movieToSave);
+  }
+
+  getMovies(): Promise<Movie[]> {
+    return this.moviesRepository.find();
+  }
+
+  async getMovie(id: number): Promise<Movie> {
+    const movie = await this.moviesRepository.findOne({
+      relations: ['tags'],
+      where: { id: id },
+    });
+    if (!movie) {
+      throw new NotFoundException('Movie does not exist');
+    }
+    return movie;
+  }
+
+  async deleteMovie(id: number): Promise<Movie> {
+    return this.moviesRepository.softDeleteMovie(id);
+  }
+
+  async giveLike(id: number): Promise<Movie> {
+    let movie = await this.moviesRepository.getMovieByParam('id', id);
+    if (!movie) {
+      throw new NotFoundException('Movie does not exist');
+    }
+    movie.like = movie.like + 1;
+    return this.moviesRepository.save(movie);
+  }
+
+  async updateMovie(id: number, movie: CreateMovieDto): Promise<Movie> {
+    const movieFromDB = await this.moviesRepository.getMovieByParam('id', id);
+    if (!movieFromDB) {
+      throw new NotFoundException('Movie does not exist');
+    }
+    const movieName = await this.moviesRepository.getMovieByParam('title', movie.title);
+    if (movieName && movieName.id !== id) {
+      throw new ConflictException('Movie already exist');
+    }
+    let tags: Tag[] = movieFromDB.tags;
+    if (movie.tags && movie.tags.length) {
+      tags = await this.tagsRepository.findOrCreateTag(movie.tags);
+    }
+    const movieToSave = {
+      ...movie,
+      tags,
+      id,
+    };
+    return this.moviesRepository.save(movieToSave);
+  }
+}
