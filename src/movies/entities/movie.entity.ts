@@ -19,22 +19,22 @@ export class Movie {
   @Unique('Duplicate movie title', ['movie_title'])
   title: string;
 
-  @Column({ length: 50 })
+  @Column({ length: 50, nullable: false })
   description: string;
 
-  @Column({ length: 128 })
+  @Column({ length: 128, nullable: true })
   poster: string;
 
   @Column({ nullable: false })
   stock: number;
 
-  @Column({ length: 128 })
+  @Column({ length: 128, nullable: true })
   trailer: string;
 
-  @Column({ nullable: false })
+  @Column({ nullable: false, type: 'decimal', precision: 6, scale: 2 })
   salePrice: number;
 
-  @Column({ nullable: false })
+  @Column({ nullable: false, type: 'decimal', precision: 6, scale: 2 })
   rentPrice: number;
 
   @Column({ default: 0 })
@@ -45,6 +45,9 @@ export class Movie {
 
   @UpdateDateColumn()
   updatedAt: Date;
+
+  @Column({ default: true })
+  isActive: boolean;
 
   @ManyToMany(type => Tag)
   @JoinTable()

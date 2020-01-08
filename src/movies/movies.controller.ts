@@ -1,42 +1,57 @@
-import { Controller, Post, Get, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Get,
+  Delete,
+  Body,
+  Param,
+  ParseIntPipe,
+  Put,
+  NotFoundException,
+} from '@nestjs/common';
 import { MoviesService } from './movies.service';
+import { CreateMovieDto } from './dto/movie.dto';
+import { Movie } from './entities/movie.entity';
 
 @Controller('movies')
 export class MoviesController {
   constructor(private readonly movieService: MoviesService) {}
 
   @Post()
-  saveMovie() {
-    console.log('saving a movie...');
+  saveMovie(@Body() movie: CreateMovieDto): Promise<Movie> {
+    return this.movieService.saveMovie(movie);
   }
 
   @Get()
-  getMovies() {
-    console.log('obtaining saved movies...');
+  getMovies(): Promise<Movie[]> {
+    return this.movieService.getMovies();
   }
 
   @Get(':id')
-  getMovie() {
-    console.log('obtainig specific saved movie...');
+  async getMovie(@Param('id', new ParseIntPipe()) id: number): Promise<Movie> {
+    const movie = await this.movieService.getMovie(id);
+    console.log(movie);
+    if (!movie) {
+      throw new NotFoundException('Movie does not exist');
+    }
+    return movie;
   }
 
-  @Post(':id')
-  updateMovie() {
-    console.log('updating specific saved movie...');
+  @Put(':id')
+  updateMovie(
+    @Param('id', new ParseIntPipe()) id: number,
+    @Body() movie: CreateMovieDto,
+  ): Promise<Movie> {
+    return this.movieService.updateMovie(id, movie);
   }
 
   @Delete(':id')
-  deleteMovie() {
-    console.log('deleting specific saved movie...');
-  }
-
-  @Post(':id/tags')
-  addTag() {
-    console.log('adding tag...');
+  deleteMovie(@Param('id', new ParseIntPipe()) id: number): Promise<Movie> {
+    return this.movieService.deleteMovie(id);
   }
 
   @Post(':id/like')
-  giveLike() {
-    console.log('giving a like');
+  giveLike(@Param('id', new ParseIntPipe()) id: number): Promise<Movie> {
+    return this.movieService.giveLike(id);
   }
 }
