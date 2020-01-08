@@ -5,7 +5,6 @@ import { UsersModule } from './users/users.module';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Connection } from 'typeorm';
-import { TagsController } from './tags/tags.controller';
 import { TagsModule } from './tags/tags.module';
 
 @Module({
@@ -17,7 +16,6 @@ import { TagsModule } from './tags/tags.module';
     TypeOrmModule.forRoot(),
     TagsModule,
   ],
-  controllers: [TagsController],
 })
 export class AppModule {
   constructor(private readonly connection: Connection) {}
