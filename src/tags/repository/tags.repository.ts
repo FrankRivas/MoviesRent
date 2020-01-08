@@ -1,6 +1,7 @@
 import { EntityRepository, Repository, In } from 'typeorm';
 import { Tag } from '../entities/tag.entity';
-import { UnprocessableEntityException } from '@nestjs/common';
+import { UnprocessableEntityException, ConflictException, NotFoundException } from '@nestjs/common';
+import { CreateTagDto } from '../dto/tag.dto';
 
 @EntityRepository(Tag)
 export class TagRepository extends Repository<Tag> {
@@ -30,5 +31,21 @@ export class TagRepository extends Repository<Tag> {
       throw new UnprocessableEntityException();
     }
     return tagsFromDB;
+  }
+  async saveTag(tagToSave: CreateTagDto): Promise<Tag> {
+    const tag = await this.getTagByParam('name', tagToSave.name);
+    if (tag) {
+      throw new ConflictException('Tag already exist');
+    }
+    return this.save(tagToSave);
+  }
+
+  async softDeleteTag(id: number): Promise<Tag> {
+    const tag = await this.getTagByParam('id', id);
+    if (!tag) {
+      throw new NotFoundException('Tag does not exist');
+    }
+    tag.isActive = false;
+    return this.save(tag);
   }
 }

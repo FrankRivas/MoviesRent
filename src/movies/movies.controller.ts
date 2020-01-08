@@ -29,12 +29,7 @@ export class MoviesController {
 
   @Get(':id')
   async getMovie(@Param('id', new ParseIntPipe()) id: number): Promise<Movie> {
-    const movie = await this.movieService.getMovie(id);
-    console.log(movie);
-    if (!movie) {
-      throw new NotFoundException('Movie does not exist');
-    }
-    return movie;
+    return await this.movieService.getMovie(id);
   }
 
   @Put(':id')

@@ -16,6 +16,9 @@ export class Tag {
   @Unique('Duplicate tag name', ['tag_name'])
   name: string;
 
+  @Column({ default: true })
+  isActive: boolean;
+
   @CreateDateColumn()
   createdAt: Date;
 
