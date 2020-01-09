@@ -4,6 +4,7 @@ import { CreateMovieDto } from './dto/movie.dto';
 import { TagRepository } from 'src/tags/repository/tags.repository';
 import { Tag } from 'src/tags/entities/tag.entity';
 import { Movie } from './entities/movie.entity';
+import { UpdateMovieDto } from './dto/updateMovie.dto';
 
 @Injectable()
 export class MoviesService {
@@ -25,13 +26,13 @@ export class MoviesService {
   }
 
   getMovies(): Promise<Movie[]> {
-    return this.moviesRepository.find();
+    return this.moviesRepository.find({ isActive: true });
   }
 
   async getMovie(id: number): Promise<Movie> {
     const movie = await this.moviesRepository.findOne({
       relations: ['tags'],
-      where: { id: id },
+      where: { id },
     });
     if (!movie) {
       throw new NotFoundException('Movie does not exist');
@@ -44,7 +45,7 @@ export class MoviesService {
   }
 
   async giveLike(id: number): Promise<Movie> {
-    let movie = await this.moviesRepository.getMovieByParam('id', id);
+    const movie = await this.moviesRepository.getMovieByParam('id', id);
     if (!movie) {
       throw new NotFoundException('Movie does not exist');
     }
@@ -52,7 +53,7 @@ export class MoviesService {
     return this.moviesRepository.save(movie);
   }
 
-  async updateMovie(id: number, movie: CreateMovieDto): Promise<Movie> {
+  async updateMovie(id: number, movie: UpdateMovieDto): Promise<Movie> {
     const movieFromDB = await this.moviesRepository.getMovieByParam('id', id);
     if (!movieFromDB) {
       throw new NotFoundException('Movie does not exist');
@@ -66,9 +67,9 @@ export class MoviesService {
       tags = await this.tagsRepository.findOrCreateTag(movie.tags);
     }
     const movieToSave = {
+      ...movieFromDB,
       ...movie,
       tags,
-      id,
     };
     return this.moviesRepository.save(movieToSave);
   }
