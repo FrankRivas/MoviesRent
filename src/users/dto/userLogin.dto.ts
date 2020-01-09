@@ -4,6 +4,7 @@ export class UserLoginDto {
   @IsNumber()
   @IsOptional()
   id: number;
+
   @IsString()
   @IsNotEmpty()
   username: string;

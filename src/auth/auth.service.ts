@@ -2,7 +2,7 @@ import { Injectable, UnauthorizedException, HttpException, UnprocessableEntityEx
 import { JwtService } from '@nestjs/jwt';
 import { User } from '../users/entities/user.entity';
 import * as bcrypt from 'bcrypt';
-import { UserLoginDto } from 'src/users/dto/userLogin,dto';
+import { UserLoginDto } from 'src/users/dto/userLogin.dto';
 import { UserRepository } from 'src/users/repositories/users.repository';
 import { TokenRepository } from './repositories/token.repository';
 
@@ -62,7 +62,7 @@ export class AuthService {
     this.tokenRepository.save(tokenToSave);
   }
 
-  async deleteToken(token: string) {
+  async deleteToken(token: string): Promise<void> {
     const tokenFromDB = await this.tokenRepository.getTokenByParam('token', token);
     if (tokenFromDB) {
       this.tokenRepository.delete(tokenFromDB);
