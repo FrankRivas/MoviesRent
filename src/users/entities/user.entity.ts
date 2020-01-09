@@ -1,5 +1,15 @@
-import { Entity, Column, PrimaryGeneratedColumn, Unique, UpdateDateColumn, CreateDateColumn, ManyToOne } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  Unique,
+  UpdateDateColumn,
+  CreateDateColumn,
+  ManyToOne,
+  OneToMany,
+} from 'typeorm';
 import { Rol } from 'src/auth/entities/roles.entity';
+import { Token } from 'src/auth/entities/token.entity';
 
 @Entity()
 export class User {
@@ -40,4 +50,10 @@ export class User {
     rol => rol.user,
   )
   rol: Rol;
+
+  @OneToMany(
+    type => Token,
+    token => token.user,
+  )
+  token: Token[];
 }
