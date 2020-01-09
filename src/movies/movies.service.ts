@@ -23,7 +23,7 @@ export class MoviesService {
   }
 
   getMovies(): Promise<Movie[]> {
-    return this.moviesRepository.find({ isActive: true });
+    return this.moviesRepository.find({ order: { title: 'ASC' }, where: { isActive: true } });
   }
 
   async getMovie(id: number): Promise<Movie> {
