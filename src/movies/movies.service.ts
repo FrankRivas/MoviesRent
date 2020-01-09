@@ -8,10 +8,7 @@ import { UpdateMovieDto } from './dto/updateMovie.dto';
 
 @Injectable()
 export class MoviesService {
-  constructor(
-    private readonly tagsRepository: TagRepository,
-    private readonly moviesRepository: MovieRepository,
-  ) {}
+  constructor(private readonly tagsRepository: TagRepository, private readonly moviesRepository: MovieRepository) {}
 
   async saveMovie(movie: CreateMovieDto): Promise<Movie> {
     let tags: Tag[] = [];

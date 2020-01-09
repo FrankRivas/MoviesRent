@@ -24,10 +24,7 @@ export class MoviesController {
   }
 
   @Put(':id')
-  updateMovie(
-    @Param('id', new ParseIntPipe()) id: number,
-    @Body() movie: UpdateMovieDto,
-  ): Promise<Movie> {
+  updateMovie(@Param('id', new ParseIntPipe()) id: number, @Body() movie: UpdateMovieDto): Promise<Movie> {
     return this.movieService.updateMovie(id, movie);
   }
 

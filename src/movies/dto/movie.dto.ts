@@ -1,13 +1,4 @@
-import {
-  IsString,
-  IsNotEmpty,
-  IsInt,
-  IsOptional,
-  IsArray,
-  IsNumber,
-  MinLength,
-  IsUrl,
-} from 'class-validator';
+import { IsString, IsNotEmpty, IsInt, IsOptional, IsArray, IsNumber, MinLength, IsUrl } from 'class-validator';
 
 export class CreateMovieDto {
   @IsString()

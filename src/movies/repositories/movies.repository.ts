@@ -1,8 +1,6 @@
 import { EntityRepository, Repository } from 'typeorm';
 import { Movie } from '../entities/movie.entity';
-import { CreateMovieDto } from '../dto/movie.dto';
 import { ConflictException, UnprocessableEntityException, NotFoundException } from '@nestjs/common';
-import { Tag } from 'src/tags/entities/tag.entity';
 import { CreateMovie } from '../interfaces/movie';
 
 @EntityRepository(Movie)

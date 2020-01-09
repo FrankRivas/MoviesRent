@@ -7,9 +7,7 @@ import { CreateTagDto } from '../dto/tag.dto';
 export class TagRepository extends Repository<Tag> {
   async findOrCreateTag(tags: string[]): Promise<Tag[]> {
     const tagsInDB = await this.getTagsInArray(tags);
-    const tagstoSave = tags.filter(
-      tag => !tagsInDB.map(ElementTag => ElementTag.name).includes(tag),
-    );
+    const tagstoSave = tags.filter(tag => !tagsInDB.map(ElementTag => ElementTag.name).includes(tag));
     const tagsObjectToSave = tagstoSave.map(tag => ({
       name: tag,
     }));

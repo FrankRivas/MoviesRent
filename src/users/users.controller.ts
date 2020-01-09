@@ -26,10 +26,7 @@ export class UsersController {
   }
 
   @Put(':id')
-  updateUser(
-    @Param('id', new ParseIntPipe()) id: number,
-    @Body() user: UpdateUserDto,
-  ): Promise<User> {
+  updateUser(@Param('id', new ParseIntPipe()) id: number, @Body() user: UpdateUserDto): Promise<User> {
     return this.userService.updateUser(id, user);
   }
 
@@ -39,18 +36,12 @@ export class UsersController {
   }
 
   @Post(':id/changeRol')
-  updateUserRol(
-    @Param('id', new ParseIntPipe()) id: number,
-    @Body() rol: CreateRolDto,
-  ): Promise<User> {
+  updateUserRol(@Param('id', new ParseIntPipe()) id: number, @Body() rol: CreateRolDto): Promise<User> {
     return this.userService.changeUserRol(id, rol.rol);
   }
 
   @Post(':id/changePassword')
-  updateUserPassword(
-    @Param('id', new ParseIntPipe()) id: number,
-    @Body() password: ChangePasswordDto,
-  ): Promise<User> {
+  updateUserPassword(@Param('id', new ParseIntPipe()) id: number, @Body() password: ChangePasswordDto): Promise<User> {
     return this.userService.changeUserPassword(id, password.password);
   }
 }

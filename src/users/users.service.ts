@@ -7,10 +7,7 @@ import { User } from './entities/user.entity';
 
 @Injectable()
 export class UsersService {
-  constructor(
-    private readonly userRepository: UserRepository,
-    private readonly rolRepository: RolRepository,
-  ) {}
+  constructor(private readonly userRepository: UserRepository, private readonly rolRepository: RolRepository) {}
   async saveUser(user: CreateUserDto): Promise<User> {
     const rol = await this.rolRepository.getRolByParam('name', user.rol);
     if (!rol) {
