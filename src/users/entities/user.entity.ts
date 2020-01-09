@@ -1,12 +1,4 @@
-import {
-  Entity,
-  Column,
-  PrimaryGeneratedColumn,
-  Unique,
-  UpdateDateColumn,
-  CreateDateColumn,
-  ManyToOne,
-} from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, Unique, UpdateDateColumn, CreateDateColumn, ManyToOne } from 'typeorm';
 import { Rol } from 'src/auth/entities/roles.entity';
 
 @Entity()
@@ -24,7 +16,7 @@ export class User {
   @Unique('Duplicate username', ['username'])
   username: string;
 
-  @Column({ length: 50, nullable: false })
+  @Column({ length: 128, nullable: false })
   password: string;
 
   @Column({ length: 50, unique: true, nullable: false })

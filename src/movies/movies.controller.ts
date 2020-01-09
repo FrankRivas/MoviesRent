@@ -1,16 +1,7 @@
-import {
-  Controller,
-  Post,
-  Get,
-  Delete,
-  Body,
-  Param,
-  ParseIntPipe,
-  Put,
-  NotFoundException,
-} from '@nestjs/common';
+import { Controller, Post, Get, Delete, Body, Param, ParseIntPipe, Put } from '@nestjs/common';
 import { MoviesService } from './movies.service';
 import { CreateMovieDto } from './dto/movie.dto';
+import { UpdateMovieDto } from './dto/updateMovie.dto';
 import { Movie } from './entities/movie.entity';
 
 @Controller('movies')
@@ -33,10 +24,7 @@ export class MoviesController {
   }
 
   @Put(':id')
-  updateMovie(
-    @Param('id', new ParseIntPipe()) id: number,
-    @Body() movie: CreateMovieDto,
-  ): Promise<Movie> {
+  updateMovie(@Param('id', new ParseIntPipe()) id: number, @Body() movie: UpdateMovieDto): Promise<Movie> {
     return this.movieService.updateMovie(id, movie);
   }
 

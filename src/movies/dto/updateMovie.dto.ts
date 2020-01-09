@@ -1,12 +1,12 @@
-import { IsString, IsNotEmpty, IsInt, IsOptional, IsArray, IsNumber, MinLength, IsUrl } from 'class-validator';
+import { IsString, IsInt, IsOptional, IsArray, IsNumber, MinLength, IsUrl } from 'class-validator';
 
-export class CreateMovieDto {
+export class UpdateMovieDto {
   @IsString()
-  @IsNotEmpty()
+  @IsOptional()
   title: string;
 
   @IsString()
-  @IsNotEmpty()
+  @IsOptional()
   description: string;
 
   @IsUrl()
@@ -14,7 +14,7 @@ export class CreateMovieDto {
   poster: string;
 
   @IsInt()
-  @IsNotEmpty()
+  @IsOptional()
   stock: number;
 
   @IsUrl()
@@ -22,11 +22,11 @@ export class CreateMovieDto {
   trailer: string;
 
   @IsNumber()
-  @IsNotEmpty()
+  @IsOptional()
   salePrice: number;
 
   @IsNumber()
-  @IsNotEmpty()
+  @IsOptional()
   rentPrice: number;
 
   @IsOptional()
