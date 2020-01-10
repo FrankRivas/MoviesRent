@@ -103,4 +103,12 @@ describe('UserService', () => {
       expect(userRepository.changeUserRol).toHaveBeenCalled();
     });
   });
+
+  describe('change user password', () => {
+    it('change user password', async () => {
+      expect(userRepository.findOne).not.toHaveBeenCalled();
+      await userService.changeUserPassword(1, 'newPass');
+      expect(userRepository.changeUserPassword).toHaveBeenCalled();
+    });
+  });
 });
