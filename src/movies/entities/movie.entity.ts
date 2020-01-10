@@ -7,8 +7,11 @@ import {
   CreateDateColumn,
   ManyToMany,
   JoinTable,
+  OneToMany,
 } from 'typeorm';
 import { Tag } from 'src/tags/entities/tag.entity';
+import { MovieToUser } from 'src/rent/entities/rent.entity';
+import { MovieToUserOrder } from 'src/order/entities/order.entity';
 
 @Entity()
 export class Movie {
@@ -52,4 +55,16 @@ export class Movie {
   @ManyToMany(type => Tag)
   @JoinTable()
   tags: Tag[];
+
+  @OneToMany(
+    type => MovieToUser,
+    movieToUser => movieToUser.movie,
+  )
+  public movieToUser: MovieToUser[];
+
+  @OneToMany(
+    type => MovieToUserOrder,
+    movieToUserOrder => movieToUserOrder.movie,
+  )
+  public movieToUserOrder: MovieToUserOrder[];
 }

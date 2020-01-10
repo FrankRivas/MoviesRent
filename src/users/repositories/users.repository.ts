@@ -9,15 +9,30 @@ import { UpdateUserDto } from '../dto/updateUser.dto';
 @EntityRepository(User)
 export class UserRepository extends Repository<User> {
   async saveUser(user: CreateUser): Promise<User> {
-    const userFromDB = await this.getUserByParam('username', user.username);
+    let userFromDB: User | undefined;
+    try {
+      userFromDB = await this.getUserByParam('username', user.username);
+    } catch {
+      throw new UnprocessableEntityException();
+    }
     if (userFromDB) {
       throw new ConflictException('User with that username already exist');
     }
-    const userEmail = await this.getUserByParam('email', user.email);
+    let userEmail: User | undefined;
+    try {
+      userEmail = await this.getUserByParam('email', user.email);
+    } catch {
+      throw new UnprocessableEntityException();
+    }
     if (userEmail) {
       throw new ConflictException('User with that email already exist');
     }
-    const encyptPass = await bcrypt.hash(user.password, 10);
+    let encyptPass: string;
+    try {
+      encyptPass = await bcrypt.hash(user.password, 10);
+    } catch {
+      throw new UnprocessableEntityException();
+    }
     user.password = encyptPass;
     return this.save(user);
   }
@@ -50,7 +65,12 @@ export class UserRepository extends Repository<User> {
   }
 
   async changeUserRol(id: number, rol: Rol): Promise<User> {
-    const userFromDB = await this.findOne(id);
+    let userFromDB: User | undefined;
+    try {
+      userFromDB = await this.findOne(id);
+    } catch {
+      throw new UnprocessableEntityException();
+    }
     if (!userFromDB) {
       throw new NotFoundException('User does not exist');
     }
@@ -59,25 +79,50 @@ export class UserRepository extends Repository<User> {
   }
 
   async changeUserPassword(id: number, password: string): Promise<User> {
-    const userFromDB = await this.findOne(id);
+    let userFromDB: User | undefined;
+    try {
+      userFromDB = await this.findOne(id);
+    } catch {
+      throw new UnprocessableEntityException();
+    }
     if (!userFromDB) {
       throw new NotFoundException('User does not exist');
     }
-    const newPassword = await bcrypt.hash(password, 10);
+    let newPassword: string;
+    try {
+      newPassword = await bcrypt.hash(password, 10);
+    } catch {
+      throw new UnprocessableEntityException();
+    }
     userFromDB.password = newPassword;
     return this.save(userFromDB);
   }
 
   async updateUser(id: number, user: UpdateUserDto): Promise<User> {
-    const userFromDB = await this.findOne(id);
+    let userFromDB: User | undefined;
+    try {
+      userFromDB = await this.findOne(id);
+    } catch {
+      throw new UnprocessableEntityException();
+    }
     if (!userFromDB) {
       throw new NotFoundException('User does not exist');
     }
-    const usernameFromDB = await this.getUserByParam('username', user.username);
+    let usernameFromDB: User | undefined;
+    try {
+      usernameFromDB = await this.getUserByParam('username', user.username);
+    } catch {
+      throw new UnprocessableEntityException();
+    }
     if (usernameFromDB && userFromDB.id !== id) {
       throw new ConflictException('User with that username already exist');
     }
-    const emailFromDB = await this.getUserByParam('email', user.email);
+    let emailFromDB: User | undefined;
+    try {
+      emailFromDB = await this.getUserByParam('email', user.email);
+    } catch {
+      throw new UnprocessableEntityException();
+    }
     if (emailFromDB && userFromDB.id !== id) {
       throw new ConflictException('User with that email already exist');
     }
@@ -89,7 +134,6 @@ export class UserRepository extends Repository<User> {
       password,
       rol,
     };
-    const nuevo = await this.save(userToSave);
-    return nuevo;
+    return this.save(userToSave);
   }
 }

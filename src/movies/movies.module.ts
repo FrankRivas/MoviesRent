@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Module, forwardRef } from '@nestjs/common';
 import { MoviesService } from './movies.service';
 import { MoviesController } from './movies.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -8,8 +8,14 @@ import { AuthModule } from 'src/auth/auth.module';
 import { UsersModule } from 'src/users/users.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([MovieRepository]), TagsModule, AuthModule, UsersModule],
+  imports: [
+    TypeOrmModule.forFeature([MovieRepository]),
+    forwardRef(() => TagsModule),
+    forwardRef(() => AuthModule),
+    forwardRef(() => UsersModule),
+  ],
   providers: [MoviesService],
   controllers: [MoviesController],
+  exports: [TypeOrmModule],
 })
 export class MoviesModule {}

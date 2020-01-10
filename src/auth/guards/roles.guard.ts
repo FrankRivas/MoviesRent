@@ -1,6 +1,13 @@
-import { Injectable, CanActivate, ExecutionContext, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  CanActivate,
+  ExecutionContext,
+  NotFoundException,
+  UnprocessableEntityException,
+} from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { UserRepository } from 'src/users/repositories/users.repository';
+import { User } from 'src/users/entities/user.entity';
 
 @Injectable()
 export class RolesGuard implements CanActivate {
@@ -13,10 +20,15 @@ export class RolesGuard implements CanActivate {
     }
     const request = context.switchToHttp().getRequest();
     const user = request.user;
-    const userFromDB = await this.userRepository.findOne({
-      relations: ['rol'],
-      where: { id: user.userId },
-    });
+    let userFromDB: User | undefined;
+    try {
+      userFromDB = await this.userRepository.findOne({
+        relations: ['rol'],
+        where: { id: user.userId },
+      });
+    } catch {
+      throw new UnprocessableEntityException();
+    }
     if (!userFromDB) {
       throw new NotFoundException('User does not exist');
     }

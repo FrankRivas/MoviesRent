@@ -1,15 +1,21 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, UnprocessableEntityException } from '@nestjs/common';
 import { UserRepository } from './repositories/users.repository';
 import { RolRepository } from 'src/auth/repositories/roles.repository';
 import { CreateUserDto } from './dto/user.dto';
 import { UpdateUserDto } from './dto/updateUser.dto';
 import { User } from './entities/user.entity';
+import { Rol } from 'src/auth/entities/roles.entity';
 
 @Injectable()
 export class UsersService {
   constructor(private readonly userRepository: UserRepository, private readonly rolRepository: RolRepository) {}
   async saveUser(user: CreateUserDto): Promise<User> {
-    const rol = await this.rolRepository.getRolByParam('name', user.rol);
+    let rol: Rol | undefined;
+    try {
+      rol = await this.rolRepository.getRolByParam('name', user.rol);
+    } catch {
+      throw new UnprocessableEntityException();
+    }
     if (!rol) {
       throw new NotFoundException('Rol does not exist');
     }
@@ -26,7 +32,12 @@ export class UsersService {
   }
 
   async getUser(id: number): Promise<User> {
-    const user = await this.userRepository.getUserByParam('id', id);
+    let user: User | undefined;
+    try {
+      user = await this.userRepository.getUserByParam('id', id);
+    } catch {
+      throw new UnprocessableEntityException();
+    }
     if (!user) {
       throw new NotFoundException('User does not exist');
     }
@@ -38,7 +49,12 @@ export class UsersService {
   }
 
   async changeUserRol(id: number, rol: string): Promise<User> {
-    const newRol = await this.rolRepository.getRolByParam('name', rol);
+    let newRol: Rol | undefined;
+    try {
+      newRol = await this.rolRepository.getRolByParam('name', rol);
+    } catch {
+      throw new UnprocessableEntityException();
+    }
     if (!newRol) {
       throw new NotFoundException('Rol does not exist');
     }

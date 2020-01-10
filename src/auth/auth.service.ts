@@ -5,6 +5,7 @@ import * as bcrypt from 'bcrypt';
 import { UserLoginDto } from 'src/users/dto/userLogin.dto';
 import { UserRepository } from 'src/users/repositories/users.repository';
 import { TokenRepository } from './repositories/token.repository';
+import { Token } from './entities/token.entity';
 
 @Injectable()
 export class AuthService {
@@ -54,7 +55,12 @@ export class AuthService {
   }
 
   async saveToken(id: number, token: string): Promise<void> {
-    const user = await this.userRepository.findOne(id);
+    let user: User | undefined;
+    try {
+      user = await this.userRepository.findOne(id);
+    } catch {
+      throw new UnprocessableEntityException();
+    }
     const tokenToSave = {
       user,
       token,
@@ -63,7 +69,12 @@ export class AuthService {
   }
 
   async deleteToken(token: string): Promise<void> {
-    const tokenFromDB = await this.tokenRepository.getTokenByParam('token', token);
+    let tokenFromDB: Token | undefined;
+    try {
+      tokenFromDB = await this.tokenRepository.getTokenByParam('token', token);
+    } catch {
+      throw new UnprocessableEntityException();
+    }
     if (tokenFromDB) {
       this.tokenRepository.delete(tokenFromDB);
     }

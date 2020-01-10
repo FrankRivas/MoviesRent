@@ -6,6 +6,8 @@ import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Connection } from 'typeorm';
 import { TagsModule } from './tags/tags.module';
+import { RentModule } from './rent/rent.module';
+import { OrderModule } from './order/order.module';
 
 @Module({
   imports: [
@@ -15,6 +17,8 @@ import { TagsModule } from './tags/tags.module';
     ConfigModule.forRoot({ isGlobal: true }),
     TypeOrmModule.forRoot(),
     TagsModule,
+    RentModule,
+    OrderModule,
   ],
 })
 export class AppModule {

@@ -6,12 +6,22 @@ import { CreateTagDto } from '../dto/tag.dto';
 @EntityRepository(Tag)
 export class TagRepository extends Repository<Tag> {
   async findOrCreateTag(tags: string[]): Promise<Tag[]> {
-    const tagsInDB = await this.getTagsInArray(tags);
+    let tagsInDB: Tag[];
+    try {
+      tagsInDB = await this.getTagsInArray(tags);
+    } catch {
+      throw new UnprocessableEntityException();
+    }
     const tagstoSave = tags.filter(tag => !tagsInDB.map(ElementTag => ElementTag.name).includes(tag));
     const tagsObjectToSave = tagstoSave.map(tag => ({
       name: tag,
     }));
-    const newTags = await this.save(tagsObjectToSave);
+    let newTags: Tag[] | undefined;
+    try {
+      newTags = await this.save(tagsObjectToSave);
+    } catch {
+      throw new UnprocessableEntityException();
+    }
     return [...newTags, ...tagsInDB];
   }
   async getTagByParam(param: string, value: string | number): Promise<Tag | undefined> {
@@ -33,7 +43,12 @@ export class TagRepository extends Repository<Tag> {
     return tagsFromDB;
   }
   async saveTag(tagToSave: CreateTagDto): Promise<Tag> {
-    const tag = await this.getTagByParam('name', tagToSave.name);
+    let tag: Tag | undefined;
+    try {
+      tag = await this.getTagByParam('name', tagToSave.name);
+    } catch {
+      throw new UnprocessableEntityException();
+    }
     if (tag) {
       throw new ConflictException('Tag already exist');
     }
@@ -41,7 +56,12 @@ export class TagRepository extends Repository<Tag> {
   }
 
   async softDeleteTag(id: number): Promise<Tag> {
-    const tag = await this.getTagByParam('id', id);
+    let tag: Tag | undefined;
+    try {
+      tag = await this.getTagByParam('id', id);
+    } catch {
+      throw new UnprocessableEntityException();
+    }
     if (!tag) {
       throw new NotFoundException('Tag does not exist');
     }
