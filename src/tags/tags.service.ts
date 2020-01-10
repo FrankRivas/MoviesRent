@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException, ConflictException } from '@nestjs/common';
+import { Injectable, NotFoundException, ConflictException, UnprocessableEntityException } from '@nestjs/common';
 import { TagRepository } from './repository/tags.repository';
 import { CreateTagDto } from './dto/tag.dto';
 import { Tag } from './entities/tag.entity';
@@ -20,7 +20,12 @@ export class TagsService {
   }
 
   async getTag(id: number): Promise<Tag> {
-    const tag = await this.tagsRepository.getTagByParam('id', id);
+    let tag: Tag | undefined;
+    try {
+      tag = await this.tagsRepository.getTagByParam('id', id);
+    } catch {
+      throw new UnprocessableEntityException();
+    }
     if (!tag) {
       throw new NotFoundException('Tag does not exist');
     }
@@ -28,11 +33,21 @@ export class TagsService {
   }
 
   async updateTag(id: number, newTagName: string): Promise<Tag> {
-    const tag = await this.tagsRepository.getTagByParam('id', id);
+    let tag: Tag | undefined;
+    try {
+      tag = await this.tagsRepository.getTagByParam('id', id);
+    } catch {
+      throw new UnprocessableEntityException();
+    }
     if (!tag) {
       throw new NotFoundException('Tag does not exist');
     }
-    const tagName = await this.tagsRepository.getTagByParam('name', newTagName);
+    let tagName: Tag | undefined;
+    try {
+      tagName = await this.tagsRepository.getTagByParam('name', newTagName);
+    } catch {
+      throw new UnprocessableEntityException();
+    }
     if (tagName && tagName.id !== id) {
       throw new ConflictException('Tag name already exist');
     }

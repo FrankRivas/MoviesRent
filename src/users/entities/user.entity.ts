@@ -10,6 +10,8 @@ import {
 } from 'typeorm';
 import { Rol } from 'src/auth/entities/roles.entity';
 import { Token } from 'src/auth/entities/token.entity';
+import { MovieToUser } from 'src/rent/entities/rent.entity';
+import { MovieToUserOrder } from 'src/order/entities/order.entity';
 
 @Entity()
 export class User {
@@ -56,4 +58,16 @@ export class User {
     token => token.user,
   )
   token: Token[];
+
+  @OneToMany(
+    type => MovieToUser,
+    movieToUser => movieToUser.user,
+  )
+  public movieToUser: MovieToUser[];
+
+  @OneToMany(
+    type => MovieToUserOrder,
+    movieToUserOrder => movieToUserOrder.user,
+  )
+  public movieToUserOrder: MovieToUserOrder[];
 }

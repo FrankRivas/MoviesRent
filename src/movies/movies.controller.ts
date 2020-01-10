@@ -1,4 +1,16 @@
-import { Controller, Post, Get, Delete, Body, Param, ParseIntPipe, Put, UseGuards, SetMetadata } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Get,
+  Delete,
+  Body,
+  Param,
+  ParseIntPipe,
+  Put,
+  UseGuards,
+  SetMetadata,
+  UnprocessableEntityException,
+} from '@nestjs/common';
 import { MoviesService } from './movies.service';
 import { CreateMovieDto } from './dto/movie.dto';
 import { UpdateMovieDto } from './dto/updateMovie.dto';
@@ -25,7 +37,13 @@ export class MoviesController {
 
   @Get(':id')
   async getMovie(@Param('id', new ParseIntPipe()) id: number): Promise<Movie> {
-    return await this.movieService.getMovie(id);
+    let movie: Movie | undefined;
+    try {
+      movie = await this.movieService.getMovie(id);
+    } catch {
+      throw new UnprocessableEntityException();
+    }
+    return movie;
   }
 
   @UseGuards(AuthGuard('jwt'), TokenGuard, RolesGuard)
