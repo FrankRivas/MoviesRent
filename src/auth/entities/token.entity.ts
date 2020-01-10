@@ -1,5 +1,7 @@
+/* istanbul ignore file */
+
 import { Entity, PrimaryGeneratedColumn, Column, Unique, ManyToOne } from 'typeorm';
-import { User } from 'src/users/entities/user.entity';
+import { User } from '../../users/entities/user.entity';
 
 @Entity()
 export class Token {
@@ -11,7 +13,7 @@ export class Token {
   token: string;
 
   @ManyToOne(
-    type => User,
+    () => User,
     user => user.token,
   )
   user: User;

@@ -1,3 +1,5 @@
+/* istanbul ignore file */
+
 import {
   Entity,
   Column,
@@ -9,9 +11,9 @@ import {
   JoinTable,
   OneToMany,
 } from 'typeorm';
-import { Tag } from 'src/tags/entities/tag.entity';
-import { MovieToUser } from 'src/rent/entities/rent.entity';
-import { MovieToUserOrder } from 'src/order/entities/order.entity';
+import { Tag } from '../../tags/entities/tag.entity';
+import { MovieToUser } from '../../rent/entities/rent.entity';
+import { MovieToUserOrder } from '../../order/entities/order.entity';
 
 @Entity()
 export class Movie {
@@ -52,18 +54,18 @@ export class Movie {
   @Column({ default: true })
   isActive: boolean;
 
-  @ManyToMany(type => Tag)
+  @ManyToMany(() => Tag)
   @JoinTable()
   tags: Tag[];
 
   @OneToMany(
-    type => MovieToUser,
+    () => MovieToUser,
     movieToUser => movieToUser.movie,
   )
   public movieToUser: MovieToUser[];
 
   @OneToMany(
-    type => MovieToUserOrder,
+    () => MovieToUserOrder,
     movieToUserOrder => movieToUserOrder.movie,
   )
   public movieToUserOrder: MovieToUserOrder[];

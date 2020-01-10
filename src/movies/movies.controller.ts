@@ -16,8 +16,8 @@ import { CreateMovieDto } from './dto/movie.dto';
 import { UpdateMovieDto } from './dto/updateMovie.dto';
 import { Movie } from './entities/movie.entity';
 import { AuthGuard } from '@nestjs/passport';
-import { TokenGuard } from 'src/auth/guards/token.guard';
-import { RolesGuard } from 'src/auth/guards/roles.guard';
+import { TokenGuard } from '../auth/guards/token.guard';
+import { RolesGuard } from '../auth/guards/roles.guard';
 
 @Controller('movies')
 export class MoviesController {

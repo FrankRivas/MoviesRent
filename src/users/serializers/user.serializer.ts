@@ -1,5 +1,5 @@
-import { Rol } from 'src/auth/entities/roles.entity';
-import { Token } from 'src/auth/entities/token.entity';
+import { Rol } from '../../auth/entities/roles.entity';
+import { Token } from '../../auth/entities/token.entity';
 import { Exclude } from 'class-transformer';
 
 export class UserSerializer {

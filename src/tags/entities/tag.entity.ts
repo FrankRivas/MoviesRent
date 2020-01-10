@@ -1,3 +1,5 @@
+/* istanbul ignore file */
+
 import { Entity, Column, PrimaryGeneratedColumn, Unique, UpdateDateColumn, CreateDateColumn } from 'typeorm';
 
 @Entity()

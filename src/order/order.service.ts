@@ -2,11 +2,11 @@ import { Injectable, BadRequestException, NotFoundException, UnprocessableEntity
 import { InjectRepository } from '@nestjs/typeorm';
 import { MovieToUserOrder } from './entities/order.entity';
 import { Repository } from 'typeorm';
-import { UserRepository } from 'src/users/repositories/users.repository';
-import { MovieRepository } from 'src/movies/repositories/movies.repository';
+import { UserRepository } from '../users/repositories/users.repository';
+import { MovieRepository } from '../movies/repositories/movies.repository';
 import { OrderMovieDto } from './dto/order.dto';
-import { User } from 'src/users/entities/user.entity';
-import { Movie } from 'src/movies/entities/movie.entity';
+import { User } from '../users/entities/user.entity';
+import { Movie } from '../movies/entities/movie.entity';
 
 @Injectable()
 export class OrderService {

@@ -1,4 +1,4 @@
-import { Rol } from 'src/auth/entities/roles.entity';
+import { Rol } from '../../auth/entities/roles.entity';
 
 export interface CreateUser {
   name?: string;
