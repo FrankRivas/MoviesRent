@@ -14,18 +14,18 @@ import {
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/user.dto';
-import { CreateRolDto } from 'src/auth/dto/rol.dto';
-import { ChangePasswordDto } from 'src/movies/dto/password.dto';
+import { CreateRolDto } from '../auth/dto/rol.dto';
+import { ChangePasswordDto } from '../movies/dto/password.dto';
 import { UpdateUserDto } from './dto/updateUser.dto';
 import { User } from './entities/user.entity';
 import { AuthGuard } from '@nestjs/passport';
-import { TokenGuard } from 'src/auth/guards/token.guard';
-import { RolesGuard } from 'src/auth/guards/roles.guard';
+import { TokenGuard } from '../auth/guards/token.guard';
+import { RolesGuard } from '../auth/guards/roles.guard';
 import { UserSerializer } from './serializers/user.serializer';
-import { RentMovieDto } from 'src/rent/dto/rent.dto';
-import { RentService } from 'src/rent/rent.service';
-import { OrderMovieDto } from 'src/order/dto/order.dto';
-import { OrderService } from 'src/order/order.service';
+import { RentMovieDto } from '../rent/dto/rent.dto';
+import { RentService } from '../rent/rent.service';
+import { OrderMovieDto } from '../order/dto/order.dto';
+import { OrderService } from '../order/order.service';
 
 @Controller('users')
 export class UsersController {
@@ -97,13 +97,13 @@ export class UsersController {
 
   @UseGuards(AuthGuard('jwt'))
   @Post(':id/rent/:idRent/return')
-  returnMovie(@Param('idRent', new ParseIntPipe()) idRent: number) {
+  returnMovie(@Param('idRent', new ParseIntPipe()) idRent: number): Promise<{}> {
     return this.movieToRentService.returnMovie(idRent);
   }
 
   @UseGuards(AuthGuard('jwt'))
   @Get(':id/rent')
-  getRentedMovies(@Param('id', new ParseIntPipe()) id: number) {
+  getRentedMovies(@Param('id', new ParseIntPipe()) id: number): Promise<{}> {
     return this.movieToRentService.getRentedMovies(id);
   }
 
@@ -115,7 +115,7 @@ export class UsersController {
 
   @UseGuards(AuthGuard('jwt'))
   @Get(':id/order')
-  getOrderedMovies(@Param('id', new ParseIntPipe()) id: number) {
+  getOrderedMovies(@Param('id', new ParseIntPipe()) id: number): Promise<{}> {
     return this.movieToOrderService.getOrderMovies(id);
   }
 }

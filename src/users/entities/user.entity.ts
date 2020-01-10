@@ -1,3 +1,5 @@
+/* istanbul ignore file */
+
 import {
   Entity,
   Column,
@@ -8,10 +10,10 @@ import {
   ManyToOne,
   OneToMany,
 } from 'typeorm';
-import { Rol } from 'src/auth/entities/roles.entity';
-import { Token } from 'src/auth/entities/token.entity';
-import { MovieToUser } from 'src/rent/entities/rent.entity';
-import { MovieToUserOrder } from 'src/order/entities/order.entity';
+import { Rol } from '../../auth/entities/roles.entity';
+import { Token } from '../../auth/entities/token.entity';
+import { MovieToUser } from '../../rent/entities/rent.entity';
+import { MovieToUserOrder } from '../../order/entities/order.entity';
 
 @Entity()
 export class User {
@@ -48,25 +50,25 @@ export class User {
   updatedAt: Date;
 
   @ManyToOne(
-    type => Rol,
+    () => Rol,
     rol => rol.user,
   )
   rol: Rol;
 
   @OneToMany(
-    type => Token,
+    () => Token,
     token => token.user,
   )
   token: Token[];
 
   @OneToMany(
-    type => MovieToUser,
+    () => MovieToUser,
     movieToUser => movieToUser.user,
   )
   public movieToUser: MovieToUser[];
 
   @OneToMany(
-    type => MovieToUserOrder,
+    () => MovieToUserOrder,
     movieToUserOrder => movieToUserOrder.user,
   )
   public movieToUserOrder: MovieToUserOrder[];

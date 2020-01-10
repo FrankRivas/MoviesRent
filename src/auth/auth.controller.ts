@@ -2,8 +2,8 @@ import { Controller, Post, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthGuard } from '@nestjs/passport';
 import { Token } from './decorators/token.decorator';
-import { UserLoginDto } from 'src/users/dto/userLogin.dto';
-import { User } from 'src/users/decorators/user.decorator';
+import { UserLoginDto } from '../users/dto/userLogin.dto';
+import { User } from '../users/decorators/user.decorator';
 
 @Controller('auth')
 export class AuthController {

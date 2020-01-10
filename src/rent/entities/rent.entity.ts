@@ -1,6 +1,8 @@
+/* istanbul ignore file */
+
 import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, ManyToOne } from 'typeorm';
-import { User } from 'src/users/entities/user.entity';
-import { Movie } from 'src/movies/entities/movie.entity';
+import { User } from '../../users/entities/user.entity';
+import { Movie } from '../../movies/entities/movie.entity';
 
 @Entity()
 export class MovieToUser {
@@ -26,13 +28,13 @@ export class MovieToUser {
   rentDate: Date;
 
   @ManyToOne(
-    type => User,
+    () => User,
     user => user.movieToUser,
   )
   public user: User;
 
   @ManyToOne(
-    type => Movie,
+    () => Movie,
     movie => movie.movieToUser,
   )
   public movie: Movie;

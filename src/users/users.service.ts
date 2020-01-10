@@ -1,10 +1,10 @@
 import { Injectable, NotFoundException, UnprocessableEntityException } from '@nestjs/common';
 import { UserRepository } from './repositories/users.repository';
-import { RolRepository } from 'src/auth/repositories/roles.repository';
+import { RolRepository } from '../auth/repositories/roles.repository';
 import { CreateUserDto } from './dto/user.dto';
 import { UpdateUserDto } from './dto/updateUser.dto';
 import { User } from './entities/user.entity';
-import { Rol } from 'src/auth/entities/roles.entity';
+import { Rol } from '../auth/entities/roles.entity';
 
 @Injectable()
 export class UsersService {

@@ -3,7 +3,7 @@ import { User } from '../entities/user.entity';
 import { CreateUser } from '../interfaces/user';
 import { UnprocessableEntityException, ConflictException, NotFoundException } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
-import { Rol } from 'src/auth/entities/roles.entity';
+import { Rol } from '../../auth/entities/roles.entity';
 import { UpdateUserDto } from '../dto/updateUser.dto';
 
 @EntityRepository(User)

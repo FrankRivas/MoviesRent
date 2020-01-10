@@ -1,5 +1,7 @@
+/* istanbul ignore file */
+
 import { Entity, Column, PrimaryGeneratedColumn, Unique, UpdateDateColumn, CreateDateColumn, OneToMany } from 'typeorm';
-import { User } from 'src/users/entities/user.entity';
+import { User } from '../../users/entities/user.entity';
 
 @Entity()
 export class Rol {
@@ -20,7 +22,7 @@ export class Rol {
   updatedAt: Date;
 
   @OneToMany(
-    type => User,
+    () => User,
     user => user.rol,
   )
   user: User[];

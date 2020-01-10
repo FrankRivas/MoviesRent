@@ -1,8 +1,8 @@
 import { Module, forwardRef } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { MovieToUserOrder } from './entities/order.entity';
-import { UsersModule } from 'src/users/users.module';
-import { MoviesModule } from 'src/movies/movies.module';
+import { UsersModule } from '../users/users.module';
+import { MoviesModule } from '../movies/movies.module';
 import { OrderService } from './order.service';
 
 @Module({

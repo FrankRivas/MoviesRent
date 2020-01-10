@@ -1,8 +1,8 @@
 import { Injectable, NotFoundException, ConflictException, UnprocessableEntityException } from '@nestjs/common';
 import { MovieRepository } from './repositories/movies.repository';
 import { CreateMovieDto } from './dto/movie.dto';
-import { TagRepository } from 'src/tags/repository/tags.repository';
-import { Tag } from 'src/tags/entities/tag.entity';
+import { TagRepository } from '../tags/repository/tags.repository';
+import { Tag } from '../tags/entities/tag.entity';
 import { Movie } from './entities/movie.entity';
 import { UpdateMovieDto } from './dto/updateMovie.dto';
 

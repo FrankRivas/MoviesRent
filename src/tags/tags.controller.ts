@@ -2,9 +2,9 @@ import { Controller, Get, Delete, Post, Body, Param, ParseIntPipe, Put, UseGuard
 import { TagsService } from './tags.service';
 import { CreateTagDto } from './dto/tag.dto';
 import { Tag } from './entities/tag.entity';
-import { RolesGuard } from 'src/auth/guards/roles.guard';
+import { RolesGuard } from '../auth/guards/roles.guard';
 import { AuthGuard } from '@nestjs/passport';
-import { TokenGuard } from 'src/auth/guards/token.guard';
+import { TokenGuard } from '../auth/guards/token.guard';
 
 @Controller('tags')
 export class TagsController {

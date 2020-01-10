@@ -1,9 +1,9 @@
-import { Injectable, UnauthorizedException, HttpException, UnprocessableEntityException } from '@nestjs/common';
+import { Injectable, UnauthorizedException, UnprocessableEntityException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { User } from '../users/entities/user.entity';
 import * as bcrypt from 'bcrypt';
-import { UserLoginDto } from 'src/users/dto/userLogin.dto';
-import { UserRepository } from 'src/users/repositories/users.repository';
+import { UserLoginDto } from '../users/dto/userLogin.dto';
+import { UserRepository } from '../users/repositories/users.repository';
 import { TokenRepository } from './repositories/token.repository';
 import { Token } from './entities/token.entity';
 
