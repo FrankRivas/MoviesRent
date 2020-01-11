@@ -24,7 +24,7 @@ export class MoviesController {
   constructor(private readonly movieService: MoviesService) {}
 
   @UseGuards(AuthGuard('jwt'), TokenGuard, RolesGuard)
-  @SetMetadata('roles', ['administrador'])
+  @SetMetadata('roles', ['administrator'])
   @Post()
   saveMovie(@Body() movie: CreateMovieDto): Promise<Movie> {
     return this.movieService.saveMovie(movie);
@@ -47,14 +47,14 @@ export class MoviesController {
   }
 
   @UseGuards(AuthGuard('jwt'), TokenGuard, RolesGuard)
-  @SetMetadata('roles', ['administrador'])
+  @SetMetadata('roles', ['administrator'])
   @Put(':id')
   updateMovie(@Param('id', new ParseIntPipe()) id: number, @Body() movie: UpdateMovieDto): Promise<Movie> {
     return this.movieService.updateMovie(id, movie);
   }
 
   @UseGuards(AuthGuard('jwt'), TokenGuard, RolesGuard)
-  @SetMetadata('roles', ['administrador'])
+  @SetMetadata('roles', ['administrator'])
   @Delete(':id')
   deleteMovie(@Param('id', new ParseIntPipe()) id: number): Promise<Movie> {
     return this.movieService.deleteMovie(id);

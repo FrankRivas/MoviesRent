@@ -35,7 +35,7 @@ $ npm install
 ## Restoring Database
 
 ```bash
-psql [DB name] < database/backup
+psql [DB name] < database/RentMoviesBackup
 ```
 
 ## Running the app

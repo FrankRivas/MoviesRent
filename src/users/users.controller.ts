@@ -36,7 +36,7 @@ export class UsersController {
   ) {}
 
   @UseGuards(AuthGuard('jwt'), TokenGuard, RolesGuard)
-  @SetMetadata('roles', ['administrador'])
+  @SetMetadata('roles', ['administrator'])
   @Get()
   getUsers(): Promise<User[]> {
     return this.userService.getUsers();
@@ -69,7 +69,7 @@ export class UsersController {
   }
 
   @UseGuards(AuthGuard('jwt'), TokenGuard, RolesGuard)
-  @SetMetadata('roles', ['administrador'])
+  @SetMetadata('roles', ['administrator'])
   @UseInterceptors(ClassSerializerInterceptor)
   @Post(':id/changeRol')
   async updateUserRol(@Param('id', new ParseIntPipe()) id: number, @Body() rol: CreateRolDto): Promise<UserSerializer> {

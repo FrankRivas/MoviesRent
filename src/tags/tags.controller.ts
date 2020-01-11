@@ -11,35 +11,35 @@ export class TagsController {
   constructor(private readonly tagService: TagsService) {}
 
   @UseGuards(AuthGuard('jwt'), TokenGuard, RolesGuard)
-  @SetMetadata('roles', ['administrador'])
+  @SetMetadata('roles', ['administrator'])
   @Get()
   getTags(): Promise<Tag[]> {
     return this.tagService.getTags();
   }
 
   @UseGuards(AuthGuard('jwt'), TokenGuard, RolesGuard)
-  @SetMetadata('roles', ['administrador'])
+  @SetMetadata('roles', ['administrator'])
   @Post()
   saveTag(@Body() tag: CreateTagDto): Promise<Tag> {
     return this.tagService.saveTag(tag);
   }
 
   @UseGuards(AuthGuard('jwt'), TokenGuard, RolesGuard)
-  @SetMetadata('roles', ['administrador'])
+  @SetMetadata('roles', ['administrator'])
   @Delete(':id')
   deleteTag(@Param('id', new ParseIntPipe()) id: number): Promise<Tag> {
     return this.tagService.softDeleteTag(id);
   }
 
   @UseGuards(AuthGuard('jwt'), TokenGuard, RolesGuard)
-  @SetMetadata('roles', ['administrador'])
+  @SetMetadata('roles', ['administrator'])
   @Get(':id')
   getTag(@Param('id', new ParseIntPipe()) id: number): Promise<Tag> {
     return this.tagService.getTag(id);
   }
 
   @UseGuards(AuthGuard('jwt'), TokenGuard, RolesGuard)
-  @SetMetadata('roles', ['administrador'])
+  @SetMetadata('roles', ['administrator'])
   @Put(':id')
   updateTag(@Param('id', new ParseIntPipe()) id: number, @Body() tag: CreateTagDto): Promise<Tag> {
     return this.tagService.updateTag(id, tag.name);
